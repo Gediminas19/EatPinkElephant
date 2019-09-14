@@ -5,5 +5,27 @@
 .serveview {
   &-log {
     @include text;
+
+    &--highlight {
+      @include title;
+      font-size: $font-size-regular;
+      font-weight: bold;
+    }
+  }
+}
+
+.servechoose,
+.serveconfirm {
+  display: none;
+
+  &-buttoncontainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+
+  &-header {
+    @include title;
+    font-size: $font-size-medium;
   }
 }
