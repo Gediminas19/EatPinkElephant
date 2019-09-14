@@ -23,26 +23,61 @@ app.get('/', function(req, res) {
     res.sendFile('./index.html', {root: STATIC_ROOT});
 });
 
+var connections = {};
+var order_backlog = [];
 
 function onConnect(socket) {
-    console.log("Got connection");
-    socket.on('disconnect', () => console.log("lost connection"));
+    console.log(`Got connection ${socket.id}`);
+    connections[socket.id] = socket;
 
-    // socket.on("")
+    if (order_backlog.length > 0) {
+      // gets item from the front of backlog removes it
+      socket.emit("job_request", {order: orders[order_backlog.shift()]});
+    }
+
+    socket.on('disconnect', () => {
+      console.log(`Lost connection from ${socket.id}`);
+      delete connections[socket.id];
+    });
 }
 
-app.post('/login', function (req, res) {    
+app.post('/login', function (req, res) {
     if (users[req.body['userid']] == null) {
-        users[req.body['userid']] = {points: 5, location: "doghouse"}
+        users[req.body['userid']] = {points: 5, location: "doghouse"};
     }
-    res.send(users[req.body['userid']])
-})
+    res.send(users[req.body['userid']]);
+});
+
+const assignCourier = function (order_id) {
+  let sock = chooseCourier();
+  if (sock != null) {
+    console.log("found a courier probably");
+    sock.emit("job_request", {order: orders[order_id]});
+  } else {
+    console.log("did not find courier, pushing to backlog");
+    order_backlog.push(order_id);
+  }
+}
+
+const chooseCourier = function() {
+  let keys = Object.keys(connections);
+  if (keys.length > 0) {
+    let randsock = connections[keys[keys.length * Math.random() << 0]];
+    console.log("chose courier");
+    return randsock;
+  } else {
+    console.log("no couriers found");
+    return null;
+  }
+}
 
 app.post('/neworder', function (req, res) {
     orders[order_id] = req.body;
     res.send("Your order ID is: " + order_id);
+    assignCourier(order_id);
     order_id += 1;
-    socket.broadcast.emit('message', 'an order has been placed');
+
+
 });
 
 app.post('/checkorder', function (req, res) {
@@ -53,6 +88,11 @@ app.post('/acceptorder', function (req, res) {
     orders[req.body['orderid']]['status'] = "ACCEPTED";
     orders[req.body['orderid']]['courierid'] = req.body['courierid'];
     res.send("You have accepted order " + JSON.stringify(orders[req.body['orderid']]));
+});
+
+app.post('/declineorder', function (req, res) {
+  res.send("You have declined order " + JSON.stringify(orders[req.body['orderid']]));
+  assignCourier(req.body['orderid']);
 });
 
 app.post('/arrived', function (req, res) {
