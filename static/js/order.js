@@ -59,3 +59,22 @@ $(document).ready(function() {
     $("#order").text(`Your order will be delivered to ${current_dest}.`);
   }
 });
+
+$("#neworder").submit(function( event ) {
+  NewOrder(getCookie("userid"), document.getElementById('restid').value, document.getElementById('orderid').value, document.getElementById('destid').value)
+  event.preventDefault();
+});
+
+function NewOrder(user_id, store_name, food_name, dest_name) {
+  var h = new XMLHttpRequest();
+  var url = " /neworder";
+  h.open("POST", url, true);
+  h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  h.send(JSON.stringify(
+    { userid: user_id, courierid: '', storename: store_name, foodname: food_name, destname: dest_name, status: "PENDING"}));
+  h.onreadystatechange = function (res) {
+      if (h.readyState == 4 && h.status == 200) {
+          console.log(h.responseText)
+      }
+  };
+}

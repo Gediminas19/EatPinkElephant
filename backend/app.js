@@ -23,10 +23,26 @@ app.get('/', function(req, res) {
     res.sendFile('./index.html', {root: STATIC_ROOT});
 });
 
+
+function onConnect(socket) {
+    console.log("Got connection");
+    socket.on('disconnect', () => console.log("lost connection"));
+
+    // socket.on("")
+}
+
+app.post('/login', function (req, res) {    
+    if (users[req.body['userid']] == null) {
+        users[req.body['userid']] = {points: 5, location: "doghouse"}
+    }
+    res.send(users[req.body['userid']])
+})
+
 app.post('/neworder', function (req, res) {
     orders[order_id] = req.body;
     res.send("Your order ID is: " + order_id);
     order_id += 1;
+    socket.broadcast.emit('message', 'an order has been placed');
 });
 
 app.post('/checkorder', function (req, res) {
@@ -57,10 +73,7 @@ app.post('/delivered', function (req, res) {
     }
 });
 
-io.on('connection', client => {
-  console.log("Got connection");
-  client.on('disconnect', () => console.log("lost connection"));
-});
+io.on('connection', onConnect);
 //app.listen(PORT, () => console.log(`listening on port ${PORT}`));
 server.listen(PORT);
 console.log(`listening on port ${PORT}`);

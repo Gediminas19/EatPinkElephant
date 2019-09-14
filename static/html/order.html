@@ -32,27 +32,21 @@
       </div>
     </div>
     <div class="orderview-form orderform">
-      <form class"orderform-form">
+      <form class="orderform-form" id="neworder"">
         <div class="orderform-item">
           <label for="restid" class="orderform-label">Resturaunt: </label>
           <input type="text" id="restid" class="orderform-restid"/>
-        </div>
-        <div class="orderform-item">
-          <input type="button" value="Set Resturaunt" id="restbutton" class="orderform-button"/>
         </div>
         <div class="orderform-item">
           <label for="orderid" class="orderform-label">Order Details: </label>
           <input type="text" id="orderid" class="orderform-orderid"/>
         </div>
         <div class="orderform-item">
-          <input type="button" value="Send Order" id="orderbutton" class="orderform-button"/>
-        </div>
-        <div class="orderform-item">
           <label for="destid" class="orderform-label">To Where: </label>
           <input type="text" id="destid" class="orderform-destid"/>
         </div>
         <div class="orderform-item">
-          <input type="button" value="Set Destination" id="destbutton" class="orderform-button"/>
+          <input type="submit" value="Submit Order" id="sendorderbutton" class="orderform-button"/>
         </div>
       </form>
       <div class="orderform-order" id="order">

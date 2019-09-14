@@ -26,7 +26,11 @@
     </div>
   </header>
   <div class="statusview">
-    <p><input type="button" value="Check Order Status" id="status"/></p>
+    <form class="orderform-form" id="checkorder"">
+      <label for="statusid" class="statusform-label">Order ID: </label>
+      <input type="text" id="orderid" class="orderform-restid"/>
+      <input type="submit" value="Check Order Status" id="statusbutton" class="orderform-button"/>
+    </form>
   </div>
   <script src="main.bundle.js"></script>
   <script src="status.bundle.js"></script>

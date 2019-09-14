@@ -12,8 +12,23 @@ $("#submitbutton").click(function() {
     $("#log").removeClass("loginform-log--error");
     setCookie("userid", userid, 1);
     $("#log").text(`Successfully set User ID to "${userid}"!`);
+    Login(userid)
   }
 });
+
+function Login(user_id) {
+  var h = new XMLHttpRequest();
+  var url = " /login";
+  h.open("POST", url, true);
+  h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  h.send(JSON.stringify(
+    { userid: user_id }));
+  h.onreadystatechange = function (res) {
+      if (h.readyState == 4 && h.status == 200) {
+          console.log(h.responseText)
+      }
+  };
+}
 
 $(document).ready(function() {
   const current_user = getCookie("userid");
