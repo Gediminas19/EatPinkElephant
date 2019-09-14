@@ -22,7 +22,10 @@ const acceptRequest = function () {
   h.onreadystatechange = function (res) {
       if (h.readyState == 4 && h.status == 200) {
           $("#log").text(h.responseText);
+      } else {
+        $("#log").text("Error, check log for more info");
       }
+      $(".servechoose").css("display", "none");
   };
 };
 
@@ -35,7 +38,10 @@ const declineRequest = function () {
   h.onreadystatechange = function (res) {
       if (h.readyState == 4 && h.status == 200) {
           $("#log").text(h.responseText);
+      } else {
+        $("#log").text("Error, check log for more info");
       }
+      $(".servechoose").css("display", "none");
   };
 };
 
