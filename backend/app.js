@@ -1,6 +1,8 @@
 const path = require("path");
 const express = require('express');
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 const PORT = 8000;
 
 const bodyParser = require('body-parser');
@@ -55,4 +57,10 @@ app.post('/delivered', function (req, res) {
     }
 });
 
-app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+io.on('connection', client => {
+  console.log("Got connection");
+  client.on('disconnect', () => console.log("lost connection"));
+});
+//app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+server.listen(PORT);
+console.log(`listening on port ${PORT}`);
