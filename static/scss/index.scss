@@ -1,0 +1,84 @@
+@import "_variables";
+
+body {
+  color: $dark-dark-pink;
+  background-color: $light-light-pink;
+}
+
+.header {
+  &-top {
+    background-color: $medium-pink;
+
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "lefticon empty righticon";
+  }
+
+  &-lefticon {
+    grid-area: lefticon;
+
+    & img {
+      width: 4*$base-unit;
+      height: 4*$base-unit;
+    }
+  }
+
+  &-righticon {
+    grid-area: righticon;
+  }
+
+  &-menuexpand {
+    color: $light-light-pink;
+    background-color: $dark-pink;
+
+    display: none;
+
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &-menuitem {
+    & a:link
+    & a:hover
+    & a:visited
+    & a:active {
+      color: $light-light-pink;
+    }
+  }
+}
+
+.mainview {
+  &-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &-largetitle {
+    font-size: $font-size-large;
+    font-weight: bolder;
+    color: $dark-pink;
+  }
+
+  &-largeimage {
+    & img {
+      width: 25*$base-unit;
+      height: 25*$base-unit;
+    }
+  }
+
+  &-question {
+    & .question {
+      &-title {
+        font-size: $font-size-medium;
+        font-weight: bold;
+        color: $dark-pink;
+      }
+      &-answer {
+        font-size: $font-size-regular;
+      }
+    }
+  }
+}

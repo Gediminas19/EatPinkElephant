@@ -1,0 +1,9 @@
+@import '_variables';
+
+@mixin grid {
+  display: grid;
+  grid-row-gap: $grid-row-spacing;
+  grid-column-gap: $grid-col-spacing;
+  grid-auto-rows: $grid-row-height;
+  grid-auto-columns: $grid-col-width;
+}
