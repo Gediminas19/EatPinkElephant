@@ -15,7 +15,7 @@ let order_id = null;
 
 const acceptRequest = function () {
   var h = new XMLHttpRequest();
-  var url = " http://localhost:8000/acceptorder";
+  var url = " /acceptorder";
   h.open("POST", url, true);
   h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   h.send(JSON.stringify({ orderid: order_id, courierid: courier_id}));
@@ -28,7 +28,7 @@ const acceptRequest = function () {
 
 const declineRequest = function () {
   var h = new XMLHttpRequest();
-  var url = " http://localhost:8000/declineorder";
+  var url = " /declineorder";
   h.open("POST", url, true);
   h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   h.send(JSON.stringify({ orderid: order_id, courierid: courier_id}));
@@ -52,7 +52,7 @@ $("#confirmno").click(function() {
 
 $(document).ready(() => {
   courier_id = getCookie("userid");
-  const socket = io("http://localhost:8000");
+  const socket = io("/");
   socket.on('connect', () => {
     $("#log").text("Connected to server! Please stand by while we wait to match someone with you.")
     state = WAITING;
@@ -69,6 +69,7 @@ $(document).ready(() => {
 
       var order = data['order'];
       order_id = order['orderid'];
+      console.log(order_id)
 
       $("#log").html("<p>You've recieved a job request! The details are as follows:</p>" +
         "<p><span class='serveview-log--highlight'>Restaraunt:&nbsp;</span>" + order['storename'] + "</p>"+
