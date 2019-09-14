@@ -1,4 +1,5 @@
 @import "_variables";
+@import "_mixins";
 
 body {
   color: $dark-dark-pink;
@@ -18,15 +19,22 @@ body {
 
   &-lefticon {
     grid-area: lefticon;
-
-    & img {
-      width: 4*$base-unit;
-      height: 4*$base-unit;
-    }
   }
 
   &-righticon {
     grid-area: righticon;
+  }
+
+  &-lefticon,
+  &-righticon
+  {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    & img {
+      width: 4*$base-unit;
+      height: 4*$base-unit;
+    }
   }
 
   &-menuexpand {
@@ -40,12 +48,8 @@ body {
   }
 
   &-menuitem {
-    & a:link
-    & a:hover
-    & a:visited
-    & a:active {
-      color: $light-light-pink;
-    }
+    @include title;
+    color: $light-light-pink;
   }
 }
 
@@ -53,10 +57,11 @@ body {
   &-banner {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
 
   &-largetitle {
+    @include title;
     font-size: $font-size-large;
     font-weight: bolder;
     color: $dark-pink;
@@ -68,15 +73,23 @@ body {
       height: 25*$base-unit;
     }
   }
+  &-largeimage,
+  &-largetitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   &-question {
     & .question {
       &-title {
+        @include title;
         font-size: $font-size-medium;
         font-weight: bold;
         color: $dark-pink;
       }
       &-answer {
+        @include text;
         font-size: $font-size-regular;
       }
     }

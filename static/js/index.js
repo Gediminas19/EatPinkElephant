@@ -1,5 +1,5 @@
-require("html-loader!./html/index.html");
-import './scss/index.scss';
+require("html-loader!../html/index.html");
+import '../scss/index.scss';
 import $ from 'jquery';
 
 window.onload = function() {

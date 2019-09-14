@@ -7,3 +7,13 @@
   grid-auto-rows: $grid-row-height;
   grid-auto-columns: $grid-col-width;
 }
+
+@mixin title {
+  font-family: $roboto;
+  font-size: $font-size-large;
+}
+
+@mixin text {
+  font-family: $open-sans;
+  font-size: $font-size-regular;
+}

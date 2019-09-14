@@ -11,7 +11,11 @@ module.exports = {
   mode: 'development',
 
   entry: {
-    'main': './static/index.js',
+    'main': './static/js/index.js',
+    'login': './static/js/login.js',
+    'order': './static/js/order.js',
+    'serve': './static/js/serve.js',
+    'status': './static/js/status.js',
   },
   devtool: 'inline-source-map',
 
