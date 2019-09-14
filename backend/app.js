@@ -43,7 +43,7 @@ function onConnect(socket) {
 
 app.post('/login', function (req, res) {
     if (users[req.body['userid']] == null) {
-        users[req.body['userid']] = {points: 5, location: "doghouse"};
+        users[req.body['userid']] = {points: 5, location: "doghouse", orders_made: [], orders_accepted: []}
     }
     res.send(users[req.body['userid']]);
 });
@@ -74,20 +74,28 @@ const chooseCourier = function() {
 
 app.post('/neworder', function (req, res) {
     orders[order_id] = req.body;
+    users[req.body['userid']]['orders_made'].push(order_id)
     res.send("Your order ID is: " + order_id);
     assignCourier(order_id);
     order_id += 1;
-
-
 });
 
 app.post('/checkorder', function (req, res) {
-    res.send("You requested to check order ID: " + req.body['orderid'] + ", which is " + JSON.stringify(orders[req.body['orderid']]));
+    var orders_made = []
+    for (orderid in users[req.body['userid']]['orders_made']) {
+        orders_made.push(orders[orderid])
+    }
+    var orders_accepted = []
+    for (orderid in users[req.body['userid']]['orders_accepted']) {
+        orders_accepted.push(orders[orderid])
+    }
+    res.send(JSON.stringify({ordersmade: orders_made, ordersaccepted: orders_accepted}))
 });
 
 app.post('/acceptorder', function (req, res) {
     orders[req.body['orderid']]['status'] = "ACCEPTED";
     orders[req.body['orderid']]['courierid'] = req.body['courierid'];
+    users[req.body['courierid']]['orders_accepted'].push(req.body['orderid'])
     res.send("You have accepted order " + JSON.stringify(orders[req.body['orderid']]));
 });
 
