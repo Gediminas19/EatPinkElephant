@@ -48,8 +48,10 @@ body {
   }
 
   &-menuitem {
-    @include title;
-    color: $light-light-pink;
+    & a {
+      @include title;
+      color: $light-light-pink;
+    }
   }
 }
 
