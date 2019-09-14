@@ -9,7 +9,7 @@ module.exports = {
   context: __dirname,
 
   entry: {
-    'main': './frontend/index.js',
+    'main': './static/index.js',
   },
 
   output: {
@@ -77,4 +77,3 @@ module.exports = {
     }),
   ],
 };
-
