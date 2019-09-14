@@ -52,6 +52,7 @@ const assignCourier = function (order_id) {
   let sock = chooseCourier();
   if (sock != null) {
     console.log("found a courier probably");
+    orders[order_id]['orderid'] = order_id;
     sock.emit("job_request", {order: orders[order_id]});
   } else {
     console.log("did not find courier, pushing to backlog");

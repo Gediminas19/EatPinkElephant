@@ -1,6 +1,7 @@
 require("html-loader!../html/serve.html");
 import '../scss/serve.scss';
 import $ from 'jquery';
+import {getCookie, setCookie} from './modules/cookies.js';
 import io from 'socket.io-client';
 
 const ERROR = -1;
@@ -9,22 +10,37 @@ const CHOOSING = 1;
 const DELIVERING = 2;
 
 let state = ERROR;
+let courier_id = null;
+let order_id = null;
 
 const acceptRequest = function () {
-
+  var h = new XMLHttpRequest();
+  var url = " http://localhost:8000/acceptorder";
+  h.open("POST", url, true);
+  h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  h.send(JSON.stringify({ orderid: order_id, courierid: courier_id}));
+  h.onreadystatechange = function (res) {
+      if (h.readyState == 4 && h.status == 200) {
+          $("#log").text(h.responseText);
+      }
+  };
 };
 
 const declineRequest = function () {
-
+  var h = new XMLHttpRequest();
+  var url = " http://localhost:8000/declineorder";
+  h.open("POST", url, true);
+  h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  h.send(JSON.stringify({ orderid: order_id, courierid: courier_id}));
+  h.onreadystatechange = function (res) {
+      if (h.readyState == 4 && h.status == 200) {
+          $("#log").text(h.responseText);
+      }
+  };
 };
 
-$("#chooseyes").click(function() {
-
-});
-
-$("#chooseno").click(function() {
-
-});
+$("#chooseyes").click(acceptRequest);
+$("#chooseno").click(declineRequest);
 
 $("#confirmyes").click(function() {
 
@@ -35,6 +51,7 @@ $("#confirmno").click(function() {
 });
 
 $(document).ready(() => {
+  courier_id = getCookie("userid");
   const socket = io("http://localhost:8000");
   socket.on('connect', () => {
     $("#log").text("Connected to server! Please stand by while we wait to match someone with you.")
@@ -51,6 +68,7 @@ $(document).ready(() => {
       $(".servechoose").css("display", "block");
 
       var order = data['order'];
+      order_id = order['orderid'];
 
       $("#log").html("<p>You've recieved a job request! The details are as follows:</p>" +
         "<p><span class='serveview-log--highlight'>Restaraunt:&nbsp;</span>" + order['storename'] + "</p>"+
