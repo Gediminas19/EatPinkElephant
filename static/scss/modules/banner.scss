@@ -1,0 +1,14 @@
+@import '_variables';
+@import '_mixins';
+
+.sharedbanner {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  &-text {
+    @include title;
+    font-size: $font-size-large;
+    font-weight: bold;
+  }
+}

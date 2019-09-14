@@ -5,6 +5,8 @@ const PORT = 8000;
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
+const favicon = require('serve-favicon');
+
 
 var orders = {};
 var users = {};
@@ -13,6 +15,7 @@ var order_id = 0;
 
 const STATIC_ROOT = path.resolve('./static/dist');
 app.use(express.static(STATIC_ROOT));
+app.use(favicon(path.join(STATIC_ROOT, 'favicon.ico')));
 
 app.get('/', function(req, res) {
     res.sendFile('./index.html', {root: STATIC_ROOT});

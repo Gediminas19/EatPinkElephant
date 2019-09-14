@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>HOME</title>
+  <title>LOGIN</title>
   <link rel="stylesheet" type="text/css" href="main.bundle.css">
   <link rel="stylesheet" type="text/css" href="login.bundle.css">
+  <link rel='shortcut icon' href='favicon.ico' type='image/x-icon' />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
   <header class="header">
@@ -24,7 +26,24 @@
     </div>
   </header>
   <div class="loginview">
-    login
+    <div class="loginview-banner sharedbanner">
+      <div class="sharedbanner-text">
+        LOGIN
+      </div>
+    </div>
+    <div class="loginview-form loginform">
+      <form class"loginform-form">
+        <div class="loginform-item">
+          <label for="userid" class="loginform-label">User ID: </label>
+          <input type="text" id="userid" class="loginform-userid"/>
+        </div>
+        <div class="loginform-item">
+          <input type="button" value="Set User ID" id="submitbutton" class="loginform-button"/>
+        </div>
+      </form>
+      <div class="loginform-log" id="log">
+      </div>
+    </div>
   </div>
   <script src="main.bundle.js"></script>
   <script src="login.bundle.js"></script>
