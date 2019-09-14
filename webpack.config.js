@@ -2,15 +2,18 @@ const path = require("path");
 const webpack = require('webpack');
 const BundleTracker = require('webpack-bundle-tracker');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const STATIC_ROOT = path.resolve('./static');
 
 module.exports = {
   context: __dirname,
+  mode: 'development',
 
   entry: {
     'main': './static/index.js',
   },
+  devtool: 'inline-source-map',
 
   output: {
     'path': path.resolve(STATIC_ROOT, "dist/"),
@@ -66,6 +69,14 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.html$/,
+        use: [
+          'file-loader?name=[name].[ext]',
+          'extract-loader',
+          'html-loader',
+        ]
+      },
     ],
   },
 
@@ -76,4 +87,10 @@ module.exports = {
       chunkFilename: "[id].bundle.css",
     }),
   ],
+
+  devServer: {
+    contentBase: path.resolve(STATIC_ROOT, 'dist'),
+    compress: true,
+    port: 9000
+  }
 };
