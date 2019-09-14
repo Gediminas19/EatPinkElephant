@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    ELEPHANT
+    </head>
+    <body>
+        <p>User ID: <input type="text" id="userbox"</p>
+        <p>Store: <input type="text" id="storebox"</p>
+        <p>Food: <input type="text" id="foodbox"</p>
+
+        <p><input type="button" value="Order Food" onclick='NewOrderBox()'/></p>
+
+        <p>Order ID: <input type="int" id="orderbox"</p>
+
+        <p><input type="button" value="Check Order" onclick='CheckOrderBox()'/></p>
+        <p><input type="button" value="Accept Order" onclick='AcceptOrderBox()'/></p>
+        <p><input type="button" value="Food Arrived" onclick='ArrivedBox()'/></p>
+        <p><input type="button" value="Food Delivered" onclick='DeliveredBox()'/></p>
+
+        <script>
+            function NewOrderBox() {
+                NewOrder(document.getElementById('userbox').value, document.getElementById('storebox').value, document.getElementById('foodbox').value)
+            }
+
+            function CheckOrderBox() {
+                CheckOrder(document.getElementById('orderbox').value)
+            }
+
+            function AcceptOrderBox() {
+                AcceptOrder(document.getElementById('userbox').value, document.getElementById('orderbox').value)
+            }
+
+            function ArrivedBox() {
+                Arrived(document.getElementById('userbox').value, document.getElementById('orderbox').value)
+            }
+
+            function DeliveredBox() {
+                Delivered(document.getElementById('userbox').value, document.getElementById('orderbox').value)
+            }
+
+            function NewOrder(user_id, store_name, food_name) {
+                var h = new XMLHttpRequest();
+                var url = " http://localhost/neworder";
+                h.open("POST", url, true);
+                h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                h.send(JSON.stringify({ userid: user_id, courierid: '', storename: store_name, foodname: food_name, status: "PENDING"}));
+                h.onreadystatechange = function (res) {
+                    if (h.readyState == 4 && h.status == 200) {
+                        console.log(h.responseText)
+                    }
+                };
+            }
+
+            function CheckOrder(id) {
+                var h = new XMLHttpRequest();
+                var url = " http://localhost/checkorder";
+                h.open("POST", url, true);
+                h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                h.send(JSON.stringify({ orderid: id}));
+                h.onreadystatechange = function (res) {
+                    if (h.readyState == 4 && h.status == 200) {
+                        console.log(h.responseText)
+                    }
+                };
+            }
+
+            function AcceptOrder(courier_id, id) {
+                var h = new XMLHttpRequest();
+                var url = " http://localhost/acceptorder";
+                h.open("POST", url, true);
+                h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                h.send(JSON.stringify({ orderid: id, courierid: courier_id}));
+                h.onreadystatechange = function (res) {
+                    if (h.readyState == 4 && h.status == 200) {
+                        console.log(h.responseText)
+                    }
+                };
+            }
+
+            function Arrived(courier_id, id) {
+                var h = new XMLHttpRequest();
+                var url = " http://localhost/arrived";
+                h.open("POST", url, true);
+                h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                h.send(JSON.stringify({ orderid: id, courierid: courier_id}));
+                h.onreadystatechange = function (res) {
+                    if (h.readyState == 4 && h.status == 200) {
+                        console.log(h.responseText)
+                    }
+                };
+            }
+
+            function Delivered(user_id, id) {
+                var h = new XMLHttpRequest();
+                var url = " http://localhost/delivered";
+                h.open("POST", url, true);
+                h.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                h.send(JSON.stringify({ orderid: id, userid: user_id}));
+                h.onreadystatechange = function (res) {
+                    if (h.readyState == 4 && h.status == 200) {
+                        console.log(h.responseText)
+                    }
+                };
+            }
+        </script>
+    </body>
+</html>
